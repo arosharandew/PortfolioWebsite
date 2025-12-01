@@ -437,56 +437,88 @@ section {
 }
 
 /* Education Section */
+.education {
+    background-color: var(--secondary-color);
+}
+
 .education-timeline {
     margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .education-item {
     display: flex;
-    gap: 30px;
-    margin-bottom: 50px;
+    gap: 40px;
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
-    padding: 30px;
+    padding: 40px;
     border: 1px solid var(--border-color);
     transition: all var(--transition-speed) ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .education-item:hover {
     border-color: var(--accent-color);
-    transform: translateX(10px);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 238, 255, 0.1);
+}
+
+.education-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.education-item:hover::before {
+    opacity: 1;
 }
 
 .education-image {
     flex: 0 0 200px;
+    min-width: 200px;
+    height: 200px;
     border-radius: var(--border-radius);
     overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0, 238, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .education-image img {
     width: 100%;
     height: 100%;
-    padding-bottom: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.7s ease;
 }
 
 .education-item:hover .education-image img {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .education-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .education-degree {
     font-size: 1.5rem;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    color: var(--text-color);
 }
 
 .education-institution {
     color: var(--accent-color);
     font-weight: 500;
+    font-size: 1.1rem;
     margin-bottom: 5px;
 }
 
@@ -494,23 +526,155 @@ section {
     color: var(--text-muted);
     margin-bottom: 15px;
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .education-description {
     margin-bottom: 20px;
+    color: var(--text-muted);
+    line-height: 1.7;
 }
 
 .education-highlights {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 12px;
+    margin-top: auto;
 }
 
 .education-highlights span {
-    padding: 5px 15px;
+    padding: 6px 16px;
     background-color: rgba(0, 238, 255, 0.1);
     border-radius: 20px;
     font-size: 0.85rem;
+    border: 1px solid rgba(0, 238, 255, 0.2);
+    transition: all var(--transition-speed) ease;
+}
+
+.education-highlights span:hover {
+    background-color: rgba(0, 238, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments for education section */
+@media (max-width: 992px) {
+    .education-item {
+        gap: 30px;
+        padding: 30px;
+    }
+
+    .education-image {
+        flex: 0 0 180px;
+        min-width: 180px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .education-item {
+        flex-direction: column;
+        gap: 25px;
+        padding: 25px;
+    }
+
+    .education-image {
+        flex: 0 0 220px;
+        min-width: 100%;
+        height: 220px;
+        margin: 0 auto;
+        order: -1; /* Move image to top on mobile */
+    }
+
+    .education-degree {
+        font-size: 1.3rem;
+    }
+
+    .education-institution {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .education-item {
+        padding: 20px;
+    }
+
+    .education-image {
+        height: 200px;
+    }
+
+    .education-highlights {
+        gap: 8px;
+    }
+
+    .education-highlights span {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* For very small screens */
+@media (max-width: 375px) {
+    .education-image {
+        height: 180px;
+    }
+
+    .education-degree {
+        font-size: 1.2rem;
+    }
+}
+
+/* Ensure all images maintain aspect ratio and don't get cut */
+.education-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.3); /* Fallback background */
+}
+
+.education-image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-position: center;
+}
+
+/* Add a subtle overlay on hover for better image presentation */
+.education-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(0, 238, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.education-item:hover .education-image::after {
+    opacity: 1;
+}
+
+/* Add a decorative frame for the image on hover */
+.education-image::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: calc(var(--border-radius) - 2px);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.education-item:hover .education-image::before {
+    opacity: 1;
 }
 
 /* Contact Section */
