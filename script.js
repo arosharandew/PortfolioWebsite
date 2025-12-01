@@ -114,3 +114,142 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 });
+// Add this to your portfolio.js file or create a new one
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Tech/ML/AI related emojis and icons
+    const techIcons = [
+        '🤖', '🧠', '⚡', '💻', '📊', '📈', '🔬', '🧮', '🔢', '🧪',
+        '📡', '🖥️', '💾', '🧬', '🔍', '🎯', '🔮', '💡', '🔧', '⚙️',
+        '🔄', '📱', '🌐', '🛠️', '🎮', '🚀', '💎', '🎲', '🔐', '🔗',
+        '🧩', '🎪', '🏆', '🎨', '✨', '🌟', '💫', '☄️', '🌌', '🪐'
+    ];
+
+    // Tech/ML specific icons (Font Awesome classes)
+    const techIconClasses = [
+        'fas fa-robot', 'fas fa-brain', 'fas fa-microchip', 'fas fa-code',
+        'fas fa-database', 'fas fa-chart-line', 'fas fa-cogs', 'fas fa-network-wired',
+        'fas fa-server', 'fas fa-laptop-code', 'fas fa-cloud', 'fas fa-magic',
+        'fas fa-bolt', 'fas fa-filter', 'fas fa-project-diagram', 'fas fa-stream',
+        'fas fa-sitemap', 'fas fa-cube', 'fas fa-shield-alt', 'fas fa-key'
+    ];
+
+    // Get containers
+    const floatingIconsContainer = document.getElementById('floating-icons');
+    const particlesContainer = document.getElementById('particles');
+
+    // Generate floating icons
+    function generateFloatingIcons() {
+        const numIcons = 40;
+
+        for (let i = 0; i < numIcons; i++) {
+            const icon = document.createElement('div');
+            icon.classList.add('icon');
+
+            // Randomly choose between emoji and font awesome icon
+            if (Math.random() > 0.5) {
+                // Use emoji
+                icon.textContent = techIcons[Math.floor(Math.random() * techIcons.length)];
+
+                // Add category class for styling
+                if (Math.random() > 0.66) {
+                    icon.classList.add('ai');
+                } else if (Math.random() > 0.33) {
+                    icon.classList.add('ml');
+                } else {
+                    icon.classList.add('data');
+                }
+            } else {
+                // Use Font Awesome icon
+                const iconClass = techIconClasses[Math.floor(Math.random() * techIconClasses.length)];
+                icon.innerHTML = `<i class="${iconClass}"></i>`;
+                icon.classList.add('code');
+            }
+
+            // Random positioning
+            icon.style.left = `${Math.random() * 100}%`;
+            icon.style.top = `${Math.random() * 100}%`;
+
+            // Random animation delay
+            icon.style.animationDelay = `${Math.random() * 20}s`;
+
+            floatingIconsContainer.appendChild(icon);
+        }
+    }
+
+    // Generate particles
+    function generateParticles() {
+        const numParticles = 60;
+
+        for (let i = 0; i < numParticles; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            // Random positioning
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+
+            // Random animation delay
+            particle.style.animationDelay = `${Math.random() * 15}s`;
+
+            // Random opacity
+            particle.style.opacity = `${0.05 + Math.random() * 0.1}`;
+
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // Generate both floating icons and particles
+    generateFloatingIcons();
+    generateParticles();
+
+    // Add interactive effect - icons become more visible when hovering over sections
+    const sections = document.querySelectorAll('section');
+
+    sections.forEach(section => {
+        section.addEventListener('mouseenter', function() {
+            const icons = document.querySelectorAll('.icon');
+            icons.forEach(icon => {
+                if (this.contains(icon)) return;
+
+                // Randomly brighten some icons
+                if (Math.random() > 0.7) {
+                    icon.style.opacity = '0.25';
+                    icon.style.filter = 'blur(0px)';
+
+                    // Return to normal after 2 seconds
+                    setTimeout(() => {
+                        icon.style.opacity = '';
+                        icon.style.filter = '';
+                    }, 2000);
+                }
+            });
+        });
+    });
+
+    // Add occasional sparkle effect to random icons
+    function sparkleEffect() {
+        const icons = document.querySelectorAll('.icon');
+        if (icons.length === 0) return;
+
+        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+
+        // Create sparkle effect
+        randomIcon.style.opacity = '0.4';
+        randomIcon.style.transform = 'scale(1.5)';
+        randomIcon.style.filter = 'blur(0px) drop-shadow(0 0 8px var(--accent-color))';
+
+        // Return to normal after 1 second
+        setTimeout(() => {
+            randomIcon.style.opacity = '';
+            randomIcon.style.transform = '';
+            randomIcon.style.filter = '';
+        }, 1000);
+
+        // Schedule next sparkle
+        setTimeout(sparkleEffect, 3000 + Math.random() * 5000);
+    }
+
+    // Start sparkle effect after a delay
+    setTimeout(sparkleEffect, 5000);
+});

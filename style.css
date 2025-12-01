@@ -152,6 +152,136 @@ section {
     font-size: 1.5rem;
     cursor: pointer;
 }
+/* Add this to your existing portfolio.css file */
+
+/* Floating Tech Icons Background */
+.floating-icons {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.icon {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.1;
+    color: var(--accent-color);
+    animation: float 20s infinite linear;
+    pointer-events: none;
+    filter: blur(0.5px);
+}
+
+.icon:nth-child(2n) {
+    animation-duration: 25s;
+    animation-delay: -5s;
+}
+
+.icon:nth-child(3n) {
+    animation-duration: 30s;
+    animation-delay: -10s;
+}
+
+.icon:nth-child(4n) {
+    animation-duration: 35s;
+    animation-delay: -15s;
+}
+
+.icon:nth-child(5n) {
+    animation-duration: 40s;
+    animation-delay: -20s;
+}
+
+/* Different icon styles */
+.icon.ai {
+    font-size: 28px;
+    opacity: 0.08;
+}
+
+.icon.ml {
+    font-size: 22px;
+    opacity: 0.12;
+}
+
+.icon.data {
+    font-size: 26px;
+    opacity: 0.09;
+}
+
+.icon.code {
+    font-size: 20px;
+    opacity: 0.15;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px) rotate(360deg);
+    }
+}
+
+/* Add a subtle grid/network effect */
+.network-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+            linear-gradient(90deg, rgba(0, 238, 255, 0.02) 1px, transparent 1px) 0 0 / 50px 50px,
+            linear-gradient(rgba(0, 238, 255, 0.02) 1px, transparent 1px) 0 0 / 50px 50px;
+    z-index: -2;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* Particle effect for more depth */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: particle-float 15s infinite linear;
+}
+
+.particle:nth-child(2n) {
+    width: 1px;
+    height: 1px;
+    animation-duration: 20s;
+}
+
+.particle:nth-child(3n) {
+    width: 3px;
+    height: 3px;
+    animation-duration: 25s;
+}
+
+@keyframes particle-float {
+    0% {
+        transform: translateY(100vh) translateX(0);
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+    }
+}
 
 /* Hero Section */
 .hero {
@@ -438,7 +568,7 @@ section {
 
 /* Education Section */
 .education {
-    background-color: var(--secondary-color);
+    background:transparent;
 }
 
 .education-timeline {
