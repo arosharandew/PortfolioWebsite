@@ -1,31 +1,78 @@
-// portfolio.js
-
-// Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
 
-    menuToggle.addEventListener('click', function() {
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.classList.add('nav-overlay');
+    document.body.appendChild(overlay);
+
+    // Toggle menu function
+    function toggleMenu() {
         navLinks.classList.toggle('active');
-        menuToggle.querySelector('i').classList.toggle('fa-bars');
-        menuToggle.querySelector('i').classList.toggle('fa-times');
+        overlay.classList.toggle('active');
+        body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+
+        // Change icon
+        const icon = menuToggle.querySelector('i');
+        if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    }
+
+    // Menu toggle click
+    menuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
     });
 
+    // Close menu when clicking overlay
+    overlay.addEventListener('click', function() {
+        toggleMenu();
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function() {
+            toggleMenu();
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (navLinks.classList.contains('active') &&
+            !navLinks.contains(e.target) &&
+            !menuToggle.contains(e.target)) {
+            toggleMenu();
+        }
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+
+    // Rest of your existing JavaScript...
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
+            if (this.getAttribute('href') === '#') return;
+
             e.preventDefault();
-
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-
             const targetElement = document.querySelector(targetId);
+
             if (targetElement) {
                 // Close mobile menu if open
                 if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    menuToggle.querySelector('i').classList.toggle('fa-bars');
-                    menuToggle.querySelector('i').classList.toggle('fa-times');
+                    toggleMenu();
                 }
 
                 window.scrollTo({
