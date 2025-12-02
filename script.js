@@ -370,21 +370,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Start sparkle effect after a delay
     setTimeout(sparkleEffect, 5000);
+// Select both classes at once
+    document.querySelectorAll('.project-card, .certification-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            console.log('Mouse ENTERED card:', this);
+            this.style.transform = 'translateY(-10px) scale(1.03)';
+            this.style.borderColor = 'var(--accent-color)';
+            this.style.boxShadow = '0 10px 30px rgba(0, 238, 255, 0.1)';
+            this.style.zIndex = '10';
+        });
 
-    // ============================================
-    // 7. PROJECT CARDS GITHUB REDIRECT
-    // ============================================
-    // Make sure project cards open GitHub in new tab
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Prevent default if it's already a link
-            if (this.tagName === 'A') return;
-
-            // Get the href from the card or open GitHub
-            const href = this.getAttribute('href') || this.dataset.href;
-            if (href) {
-                window.open(href, '_blank');
-            }
+        card.addEventListener('mouseleave', function() {
+            console.log('Mouse LEFT card:', this);
+            this.style.transform = '';
+            this.style.borderColor = '';
+            this.style.boxShadow = '';
+            this.style.zIndex = '';
         });
     });
 
