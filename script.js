@@ -423,24 +423,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     // 10. PREVENT EMPTY FORM SUBMISSION DEBUG
     // ============================================
+    // In your portfolio.js, update just the form section
     if (contactForm) {
-        // Debug: Log form data before submission
-        contactForm.addEventListener('submit', function(e) {
-            const name = this.querySelector('[name="name"]').value;
-            const email = this.querySelector('[name="email"]').value;
-            const message = this.querySelector('[name="message"]').value;
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Keep this for AJAX
 
-            console.log('Form submission attempt with:', { name, email, message });
-
-            // Optional: Validate before allowing submission
-            if (!name || !email || !message) {
-                alert('Please fill in all fields before submitting.');
-                e.preventDefault();
-                return false;
+            // Show loading state
+            if (submitBtn && btnText && btnLoader) {
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'flex';
+                submitBtn.disabled = true;
             }
 
-            // IMPORTANT: Comment out or remove this line to allow FormSubmit.co to work
-            // e.preventDefault(); // REMOVE OR COMMENT THIS LINE
+            // Hide any previous messages
+            if (formSuccess) formSuccess.style.display = 'none';
+            if (formError) formError.style.display = 'none';
+
+            try {
+                // Get form data
+                const formData = new FormData(this);
+
+                // Send to FormSubmit.co AJAX endpoint
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Show success message
+                    if (formSuccess) {
+                        formSuccess.style.display = 'flex';
+                    }
+
+                    // Reset form
+                    this.reset();
+
+                } else {
+                    throw new Error('Form submission failed');
+                }
+
+            } catch (error) {
+                console.error('Form submission error:', error);
+
+                // Show error message
+                if (formError) {
+                    formError.style.display = 'flex';
+                }
+
+            } finally {
+                // Reset button state
+                if (submitBtn && btnText && btnLoader) {
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            }
         });
     }
 });
