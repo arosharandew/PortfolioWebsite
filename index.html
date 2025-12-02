@@ -334,34 +334,47 @@
                     </a>
                 </div>
             </div>
-            <!-- In your contact section, replace the existing form with this -->
             <div class="contact-form">
                 <form action="https://formsubmit.co/fernandoarosha3@gmail.com" method="POST" id="contactForm">
-                    <!-- Add a hidden input for your email -->
+                    <!-- FormSubmit settings -->
                     <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_subject" value="New Portfolio Message!">
+                    <input type="hidden" name="_subject" value="New Portfolio Message from Arosha Fernando's Website">
                     <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_next" value="https://your-username.github.io/portfolio/thank-you.html">
 
+                    <!-- Anti-spam honeypot -->
+                    <input type="text" name="_honey" style="display:none">
+
+                    <!-- Auto-reply to sender -->
+                    <input type="hidden" name="_autoresponse" value="Thank you for contacting me! I have received your message and will get back to you soon. - Arosha Fernando">
+
+                    <!-- Form fields -->
                     <div class="form-group">
-                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="text" name="name" placeholder="Your Name" required minlength="2">
                     </div>
                     <div class="form-group">
                         <input type="email" name="email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                        <textarea name="message" rows="5" placeholder="Your Message" required minlength="10"></textarea>
                     </div>
 
                     <!-- Success message container -->
                     <div id="form-success" class="form-success" style="display: none;">
                         <i class="fas fa-check-circle"></i>
-                        <p>Thank you! Your message has been sent successfully.</p>
+                        <div>
+                            <p><strong>Thank you!</strong></p>
+                            <p>Your message has been sent successfully. I'll get back to you soon.</p>
+                        </div>
                     </div>
 
                     <!-- Error message container -->
                     <div id="form-error" class="form-error" style="display: none;">
                         <i class="fas fa-exclamation-circle"></i>
-                        <p>Something went wrong. Please try again or contact me directly.</p>
+                        <div>
+                            <p><strong>Something went wrong!</strong></p>
+                            <p>Please try again or contact me directly </p>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary" id="submit-btn">
@@ -370,6 +383,14 @@
                 <i class="fas fa-spinner fa-spin"></i> Sending...
             </span>
                     </button>
+
+                    <!-- Fallback for JavaScript disabled -->
+                    <noscript>
+                        <p class="no-script-warning">
+                            <i class="fas fa-info-circle"></i>
+                            JavaScript is disabled. Your message will still be sent, but you won't see the success message here.
+                        </p>
+                    </noscript>
                 </form>
             </div>
         </div>

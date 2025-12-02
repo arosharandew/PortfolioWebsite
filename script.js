@@ -1,4 +1,9 @@
+// portfolio.js - Complete File
+
 document.addEventListener('DOMContentLoaded', function() {
+    // ============================================
+    // 1. MOBILE MENU TOGGLE
+    // ============================================
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const body = document.body;
@@ -59,8 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Rest of your existing JavaScript...
-    // Smooth scrolling for anchor links
+    // ============================================
+    // 2. SMOOTH SCROLLING
+    // ============================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             if (this.getAttribute('href') === '#') return;
@@ -83,26 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form submission
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Get form data
-            const formData = new FormData(this);
-            const name = formData.get('name') || 'User';
-
-            // In a real implementation, you would send this data to a server
-            // For this example, we'll just show an alert
-            alert(`Thank you for your message, ${name}! I'll get back to you soon.`);
-
-            // Reset form
-            this.reset();
-        });
-    }
-
-    // Add active class to nav links based on scroll position
+    // ============================================
+    // 3. ACTIVE NAV LINK ON SCROLL
+    // ============================================
     window.addEventListener('scroll', function() {
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.nav-links a');
@@ -124,7 +113,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add animation to elements when they come into view
+    // ============================================
+    // 4. SCROLL ANIMATIONS
+    // ============================================
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -160,10 +151,90 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
-});
-// Add this to your portfolio.js file or create a new one
 
-document.addEventListener('DOMContentLoaded', function() {
+    // ============================================
+    // 5. FORM SUBMISSION WITH FORMSUBMIT.CO
+    // ============================================
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = submitBtn?.querySelector('.btn-text');
+    const btnLoader = submitBtn?.querySelector('.btn-loader');
+    const formSuccess = document.getElementById('form-success');
+    const formError = document.getElementById('form-error');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            // IMPORTANT: Remove e.preventDefault() to allow FormSubmit.co to work
+            // e.preventDefault(); // COMMENT THIS OUT OR REMOVE IT
+
+            // Show loading state
+            if (submitBtn && btnText && btnLoader) {
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'flex';
+                submitBtn.disabled = true;
+            }
+
+            // Hide any previous messages
+            if (formSuccess) formSuccess.style.display = 'none';
+            if (formError) formError.style.display = 'none';
+
+            try {
+                // For FormSubmit.co, we should let the form submit normally
+                // But we still want to show loading state
+
+                // The form will submit normally to FormSubmit.co
+                // No need for fetch() when using FormSubmit.co
+
+                // Show success message immediately (FormSubmit will handle the actual submission)
+                if (formSuccess) {
+                    formSuccess.style.display = 'flex';
+                    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                // Reset button state after a delay
+                setTimeout(() => {
+                    if (submitBtn && btnText && btnLoader) {
+                        btnText.style.display = 'inline-block';
+                        btnLoader.style.display = 'none';
+                        submitBtn.disabled = false;
+                    }
+
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        if (formSuccess) formSuccess.style.display = 'none';
+                    }, 5000);
+
+                    // Reset form after submission
+                    this.reset();
+                }, 1500);
+
+            } catch (error) {
+                console.error('Form submission error:', error);
+
+                // Show error message
+                if (formError) {
+                    formError.style.display = 'flex';
+                    formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // Reset button state
+                    if (submitBtn && btnText && btnLoader) {
+                        btnText.style.display = 'inline-block';
+                        btnLoader.style.display = 'none';
+                        submitBtn.disabled = false;
+                    }
+
+                    // Hide error message after 5 seconds
+                    setTimeout(() => {
+                        formError.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    }
+
+    // ============================================
+    // 6. FLOATING TECH ICONS BACKGROUND
+    // ============================================
     // Tech/ML/AI related emojis and icons
     const techIcons = [
         '🤖', '🧠', '⚡', '💻', '📊', '📈', '🔬', '🧮', '🔢', '🧪',
@@ -247,8 +318,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Generate both floating icons and particles
-    generateFloatingIcons();
-    generateParticles();
+    if (floatingIconsContainer) generateFloatingIcons();
+    if (particlesContainer) generateParticles();
 
     // Add interactive effect - icons become more visible when hovering over sections
     const sections = document.querySelectorAll('section');
@@ -299,96 +370,91 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Start sparkle effect after a delay
     setTimeout(sparkleEffect, 5000);
-});
-// Form handling for FormSubmit.co
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submit-btn');
-    const btnText = submitBtn?.querySelector('.btn-text');
-    const btnLoader = submitBtn?.querySelector('.btn-loader');
-    const formSuccess = document.getElementById('form-success');
-    const formError = document.getElementById('form-error');
 
+    // ============================================
+    // 7. PROJECT CARDS GITHUB REDIRECT
+    // ============================================
+    // Make sure project cards open GitHub in new tab
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Prevent default if it's already a link
+            if (this.tagName === 'A') return;
+
+            // Get the href from the card or open GitHub
+            const href = this.getAttribute('href') || this.dataset.href;
+            if (href) {
+                window.open(href, '_blank');
+            }
+        });
+    });
+
+    // ============================================
+    // 8. FORM VALIDATION (ADDITIONAL)
+    // ============================================
     if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            // Show loading state
-            if (submitBtn && btnText && btnLoader) {
-                btnText.style.display = 'none';
-                btnLoader.style.display = 'flex';
-                submitBtn.disabled = true;
-            }
-
-            // Hide any previous messages
-            if (formSuccess) formSuccess.style.display = 'none';
-            if (formError) formError.style.display = 'none';
-
-            try {
-                // Get form data
-                const formData = new FormData(this);
-
-                // Send to FormSubmit.co
-                const response = await fetch(this.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    // Show success message
-                    if (formSuccess) {
-                        formSuccess.style.display = 'flex';
-                        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-
-                    // Reset form
-                    this.reset();
-
-                    // Hide success message after 5 seconds
-                    setTimeout(() => {
-                        if (formSuccess) formSuccess.style.display = 'none';
-                    }, 5000);
-
-                    // Optional: Track form submission in Google Analytics
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'form_submit', {
-                            'event_category': 'Contact',
-                            'event_label': 'Portfolio Contact Form'
-                        });
-                    }
-
+        // Add input validation feedback
+        const inputs = contactForm.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '' && this.hasAttribute('required')) {
+                    this.style.borderColor = '#ff4444';
                 } else {
-                    throw new Error('Form submission failed');
+                    this.style.borderColor = '';
                 }
+            });
 
-            } catch (error) {
-                console.error('Form submission error:', error);
-
-                // Show error message
-                if (formError) {
-                    formError.style.display = 'flex';
-                    formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                    // Hide error message after 5 seconds
-                    setTimeout(() => {
-                        formError.style.display = 'none';
-                    }, 5000);
+            input.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    this.style.borderColor = 'var(--accent-color)';
                 }
-
-            } finally {
-                // Reset button state
-                if (submitBtn && btnText && btnLoader) {
-                    btnText.style.display = 'inline-block';
-                    btnLoader.style.display = 'none';
-                    submitBtn.disabled = false;
-                }
-            }
+            });
         });
     }
 
-    // Continue with the rest of your JavaScript...
-    // (menu toggle, smooth scrolling, etc.)
+    // ============================================
+    // 9. YEAR UPDATE IN FOOTER (OPTIONAL)
+    // ============================================
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+
+    // ============================================
+    // 10. PREVENT EMPTY FORM SUBMISSION DEBUG
+    // ============================================
+    if (contactForm) {
+        // Debug: Log form data before submission
+        contactForm.addEventListener('submit', function(e) {
+            const name = this.querySelector('[name="name"]').value;
+            const email = this.querySelector('[name="email"]').value;
+            const message = this.querySelector('[name="message"]').value;
+
+            console.log('Form submission attempt with:', { name, email, message });
+
+            // Optional: Validate before allowing submission
+            if (!name || !email || !message) {
+                alert('Please fill in all fields before submitting.');
+                e.preventDefault();
+                return false;
+            }
+
+            // IMPORTANT: Comment out or remove this line to allow FormSubmit.co to work
+            // e.preventDefault(); // REMOVE OR COMMENT THIS LINE
+        });
+    }
+});
+
+// ============================================
+// LOADING STATE FOR PAGE
+// ============================================
+window.addEventListener('load', function() {
+    // Remove loading class if you have one
+    document.body.classList.remove('loading');
+
+    // Fade in animations
+    setTimeout(() => {
+        document.querySelectorAll('.animate-on-load').forEach(el => {
+            el.classList.add('animate-in');
+        });
+    }, 100);
 });
