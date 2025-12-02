@@ -1,3 +1,4 @@
+
 /* portfolio.css */
 
 /* CSS Reset & Base Styles */
@@ -1126,4 +1127,104 @@ section {
         width: 100%;
         text-align: center;
     }
+}
+/* Form States & Messages */
+.form-success, .form-error {
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-success {
+    background-color: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    color: #4CAF50;
+}
+
+.form-error {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    color: #f44336;
+}
+
+.form-success i, .form-error i {
+    font-size: 1.5rem;
+}
+
+.form-success p, .form-error p {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Button loading state */
+.btn-loader {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#submit-btn {
+    position: relative;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Optional: Add reCAPTCHA styling if you use it */
+.recaptcha-container {
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Success page styling for the thank you page */
+.success-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.success-content {
+    max-width: 600px;
+    background-color: var(--card-bg);
+    padding: 50px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 10px 30px rgba(0, 238, 255, 0.1);
+}
+
+.success-content i {
+    font-size: 4rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+.success-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.success-content p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: var(--text-muted);
 }

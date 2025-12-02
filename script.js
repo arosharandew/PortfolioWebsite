@@ -300,3 +300,95 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start sparkle effect after a delay
     setTimeout(sparkleEffect, 5000);
 });
+// Form handling for FormSubmit.co
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = submitBtn?.querySelector('.btn-text');
+    const btnLoader = submitBtn?.querySelector('.btn-loader');
+    const formSuccess = document.getElementById('form-success');
+    const formError = document.getElementById('form-error');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Show loading state
+            if (submitBtn && btnText && btnLoader) {
+                btnText.style.display = 'none';
+                btnLoader.style.display = 'flex';
+                submitBtn.disabled = true;
+            }
+
+            // Hide any previous messages
+            if (formSuccess) formSuccess.style.display = 'none';
+            if (formError) formError.style.display = 'none';
+
+            try {
+                // Get form data
+                const formData = new FormData(this);
+
+                // Send to FormSubmit.co
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Show success message
+                    if (formSuccess) {
+                        formSuccess.style.display = 'flex';
+                        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+
+                    // Reset form
+                    this.reset();
+
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        if (formSuccess) formSuccess.style.display = 'none';
+                    }, 5000);
+
+                    // Optional: Track form submission in Google Analytics
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'form_submit', {
+                            'event_category': 'Contact',
+                            'event_label': 'Portfolio Contact Form'
+                        });
+                    }
+
+                } else {
+                    throw new Error('Form submission failed');
+                }
+
+            } catch (error) {
+                console.error('Form submission error:', error);
+
+                // Show error message
+                if (formError) {
+                    formError.style.display = 'flex';
+                    formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // Hide error message after 5 seconds
+                    setTimeout(() => {
+                        formError.style.display = 'none';
+                    }, 5000);
+                }
+
+            } finally {
+                // Reset button state
+                if (submitBtn && btnText && btnLoader) {
+                    btnText.style.display = 'inline-block';
+                    btnLoader.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+    }
+
+    // Continue with the rest of your JavaScript...
+    // (menu toggle, smooth scrolling, etc.)
+});
