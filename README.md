@@ -34,20 +34,6 @@ https://arosharandew.github.io/PortfolioWebsite/
 
 ---
 
-## 📸 Screenshots
-
-### 🏠 Home / Hero Section
-![Hero Section](images/hero.png)
-
-### 💼 Projects Section
-![Projects](images/projects.png)
-
-### 🎓 Education & Certifications
-![Education](images/education.png)
-
-### 📬 Contact Section
-![Contact](images/contact.png)
-
 ---
 
 ## 🚀 Getting Started
